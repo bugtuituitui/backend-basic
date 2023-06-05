@@ -36,6 +36,9 @@ public class ShiroConfig {
 
         // 编写过滤规则
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
+
+        // anon：放行 authc: 需认证 roles[role1, role2] 需校验角色
+
         // 放行接口
         filterRuleMap.put("/**", "anon");
 
