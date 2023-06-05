@@ -1,0 +1,62 @@
+eureka:
+  client:
+    serviceUrl:
+      # 注册地址
+      defaultZone: http://localhost:8888/eureka/
+server:
+  port: 80
+spring:
+  application:
+    # 应用名称
+    name: auth-service
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/spring-cloud?characterEncoding=utf8&serverTimezone=UTC
+    username: root
+    password: dust0000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  aop:
+    auto: true
+  # redis 配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 1800000
+    password: 123456
+    lettuce:
+      pool:
+        max-wait: -1
+        max-idle: 5
+        min-idle: 0
+        max-active: 20
+# 日志配置
+logging:
+  level:
+    org.springframework.web: INFO
+    com.github.binarywang.demo.wx.mp: DEBUG
+    me.chanjar.weixin: DEBUG
+# mybatis-plus 配置
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+## wx接口配置
+#wx:
+#  mp:
+#    useRedis: false
+#    redisConfig:
+#      host: 127.0.0.1
+#      port: 6379
+#    configs:
+#      - appId:
+#        secret:
+#        token:
+#        aesKey:
