@@ -34,20 +34,17 @@ public class ShiroConfig {
         filterMap.put("roles", new RolesFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
-
         // 编写过滤规则
         Map<String, String> filterRuleMap = new LinkedHashMap<>();
-        // 访问 /unauthorized/**时直接放行
+        // 放行接口
+        filterRuleMap.put("/**", "anon");
 
-        // 登录 注册
-        filterRuleMap.put("/login", "anon");
-        filterRuleMap.put("/reg", "anon");
-
-
+        // 需认证接口
         // filterRuleMap.put("/**", "authc");
 
-        filterRuleMap.put("/admin/**", "roles[admin]");
-        filterRuleMap.put("/web/**", "roles[web,admin]");
+        // 需角色校验接口
+//        filterRuleMap.put("/admin/**", "roles[admin]");
+//        filterRuleMap.put("/web/**", "roles[web,admin]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return shiroFilterFactoryBean;
     }
