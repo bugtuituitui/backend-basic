@@ -4,6 +4,7 @@ import com.example.common.constant.Header;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -56,4 +57,15 @@ public class RequestUtils {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         return attributes.getRequest();
     }
+
+    /**
+     * 获取请求头TOKEN
+     *
+     * @param request
+     * @return
+     */
+    public static String getToken(ServletRequest request) {
+        return ((HttpServletRequest) request).getHeader(Header.TOKEN);
+    }
+
 }
