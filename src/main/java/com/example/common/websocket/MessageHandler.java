@@ -14,12 +14,14 @@ public interface MessageHandler {
 
     /**
      * 关闭连接
+     *
      * @param key
      */
     void close(String key);
 
     /**
      * 建立连接
+     *
      * @param key
      * @param channel
      */
