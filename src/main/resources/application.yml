@@ -26,13 +26,19 @@ spring:
     port: 6379
     database: 0
     timeout: 1800000
-    password: 123456
+    #password:
     lettuce:
       pool:
         max-wait: -1
         max-idle: 5
         min-idle: 0
         max-active: 20
+  redisson:
+    #password: password # Redisson 的密码配置（选填）
+    single-server-config:
+      address: redis://127.0.0.1:6379 # Redisson 连接地址
+      database: 0 # Redis 数据库编号，从 0 开始
+      timeout: 3000 # Redis 超时时间，单位为毫秒
 # 日志配置
 logging:
   level:
