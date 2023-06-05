@@ -1,6 +1,5 @@
 package com.example.common.shiro;
 
-import com.example.common.exception.BusinessException;
 import com.example.common.utils.JwtUtils;
 import com.example.common.utils.RedisUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -52,19 +51,19 @@ public class ShiroRealm extends AuthorizingRealm {
 
     // 认证和鉴权时调用
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) {
 
         // 该类被重写，实际是返回TOKEN
         String token = (String) authenticationToken.getCredentials();
 
         // TOKEN是否有效
         if (!JwtUtils.isValid(token)) {
-            throw new BusinessException(-1, "TOKEN无效");
+            throw new AuthenticationException();
         }
 
         // redis是否存在TOKEN
         if (redisUtils.get(token) == null) {
-            throw new BusinessException(-1, "TOKEN无效");
+            throw new AuthenticationException();
         }
 
         return new SimpleAuthenticationInfo(token, token, this.getName());
