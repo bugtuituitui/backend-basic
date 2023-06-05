@@ -1,7 +1,7 @@
 package com.example.common.shiro;
 
-import com.example.common.exception.BusinessException;
 import com.example.common.utils.RequestUtils;
+import com.example.common.utils.ResponseUtils;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.authz.RolesAuthorizationFilter;
 import org.springframework.http.HttpStatus;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 用户鉴权
+ *
  * @author kfg
  * @date 2022/12/6 14:15
  */
@@ -61,7 +62,7 @@ public class RolesFilter extends RolesAuthorizationFilter {
 
 
     // 执行认证
-    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) {
 
         ShiroToken token = new ShiroToken(RequestUtils.getToken(request));
         // 使用自定义的JWTToken而不是默认的UsernamePasswordToken
@@ -73,7 +74,9 @@ public class RolesFilter extends RolesAuthorizationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        throw new BusinessException(-1, "无权限访问");
+        ResponseUtils.writeText(response, -1, "无权限");
+
+        return false;
     }
 
 }
