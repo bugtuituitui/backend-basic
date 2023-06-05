@@ -40,39 +40,14 @@ public class ShiroConfig {
         // 访问 /unauthorized/**时直接放行
 
         // 登录 注册
-        filterRuleMap.put("/api/v1/web/user/login", "anon");
-        filterRuleMap.put("/api/v1/web/user/reg", "anon");
-        filterRuleMap.put("/api/v1/admin/user/login", "anon");
+        filterRuleMap.put("/login", "anon");
+        filterRuleMap.put("/reg", "anon");
 
-        // 验证码接口
-        filterRuleMap.put("/api/v1/web/imgCode/generate", "anon");
-        filterRuleMap.put("/api/v1/admin/imgCode/generate", "anon");
-
-        filterRuleMap.put("/api/v1/web/page/data", "anon");
-        filterRuleMap.put("/api/v1/web/blog/list", "anon");
-        filterRuleMap.put("/api/v1/web/blog/detail", "anon");
-        filterRuleMap.put("/api/v1/web/collect/list", "anon");
-        filterRuleMap.put("/api/v1/web/sheet/get", "anon");
-
-        // filterRuleMap.put("/api/v1/web/online", "anon");
-
-        filterRuleMap.put("/api/v1/web/gpt/chat", "anon");
-
-        // filterRuleMap.put("/api/v1/web/item/list", "anon");
-        // filterRuleMap.put("/api/v1/web/sale/seckill", "anon");
-
-        // 开放支付宝回调接口
-        filterRuleMap.put("/api/v1/web/pay/callback", "anon");
-
-        filterRuleMap.put("/api/v1/web/wares/list", "anon");
-
-
-        filterRuleMap.put("/weixin/**", "anon");
 
         // filterRuleMap.put("/**", "authc");
 
-        filterRuleMap.put("/api/v1/admin/**", "roles[ADMIN]");
-        filterRuleMap.put("/api/v1/web/**", "roles[ORDINARY_USER]");
+        filterRuleMap.put("/admin/**", "roles[admin]");
+        filterRuleMap.put("/web/**", "roles[web,admin]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return shiroFilterFactoryBean;
     }
