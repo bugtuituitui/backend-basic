@@ -1,6 +1,7 @@
 package com.example.common.shiro;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.mgt.DefaultSubjectDAO;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
@@ -19,6 +20,7 @@ import java.util.Map;
 /**
  * shiro 配置
  */
+@Slf4j
 @Configuration
 public class ShiroConfig {
 
@@ -30,7 +32,7 @@ public class ShiroConfig {
 
         // 添加自己的过滤器
         Map<String, Filter> filterMap = new HashMap<>();
-        // filterMap.put("authc", new ShiroFilter());
+        filterMap.put("authc", new ShiroFilter());
         filterMap.put("roles", new RolesFilter());
         shiroFilterFactoryBean.setFilters(filterMap);
 
@@ -40,8 +42,10 @@ public class ShiroConfig {
         // anon：放行 authc: 需认证 roles[role1, role2] 需校验角色
 
         // 放行接口
-        filterRuleMap.put("/**", "anon");
 
+        filterRuleMap.put("/test/shiro", "authc");
+
+        filterRuleMap.put("/**", "anon");
         // 需认证接口
 //      filterRuleMap.put("/**", "authc");
 
@@ -49,6 +53,9 @@ public class ShiroConfig {
 //      filterRuleMap.put("/admin/**", "roles[admin]");
 //      filterRuleMap.put("/web/**", "roles[web,admin]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
+
+
+        log.info("Shiro 配置完成");
         return shiroFilterFactoryBean;
     }
 
