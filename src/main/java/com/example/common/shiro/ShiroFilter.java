@@ -1,8 +1,8 @@
 package com.example.common.shiro;
 
 
-import com.example.common.exception.BusinessException;
 import com.example.common.utils.RequestUtils;
+import com.example.common.utils.ResponseUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
 import org.springframework.http.HttpStatus;
@@ -12,9 +12,11 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 用户认证
+ *
  * @author kfg
  * @date 2022/12/5 12:03
  */
@@ -58,7 +60,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-        return StringUtils.isNotEmpty(RequestUtils.getToken(request));
+        return !StringUtils.isNotEmpty(RequestUtils.getToken(request));
     }
 
     /**
@@ -70,7 +72,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
      * @throws Exception
      */
     @Override
-    protected boolean executeLogin(ServletRequest request, ServletResponse response) throws Exception {
+    protected boolean executeLogin(ServletRequest request, ServletResponse response) {
         ShiroToken token = new ShiroToken(RequestUtils.getToken(request));
         // 使用自定义的JWTToken而不是默认的UsernamePasswordToken
         getSubject(request, response).login(token);
@@ -105,8 +107,10 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
      * @throws Exception
      */
     @Override
-    protected boolean onAccessDenied(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
-        throw new BusinessException(-1, "认证失败，拒绝访问");
+    protected boolean onAccessDenied(ServletRequest request, ServletResponse response, Object mappedValue) throws IOException {
+
+        ResponseUtils.writeText(response, -1, "认证失败, 无权访问");
+        return false;
     }
 }
 
