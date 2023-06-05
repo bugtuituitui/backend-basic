@@ -40,11 +40,11 @@ public class ShiroConfig {
         filterRuleMap.put("/**", "anon");
 
         // 需认证接口
-        // filterRuleMap.put("/**", "authc");
+//      filterRuleMap.put("/**", "authc");
 
         // 需角色校验接口
-//        filterRuleMap.put("/admin/**", "roles[admin]");
-//        filterRuleMap.put("/web/**", "roles[web,admin]");
+//      filterRuleMap.put("/admin/**", "roles[admin]");
+//      filterRuleMap.put("/web/**", "roles[web,admin]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return shiroFilterFactoryBean;
     }
