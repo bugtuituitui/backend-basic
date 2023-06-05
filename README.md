@@ -7,6 +7,7 @@
 #### 邮箱服务
 #### 七牛存储
 #### Netty
+#### Shiro
 
 ***
 [开箱即用](https://github.com/bugtuituitui/backend-basic)
