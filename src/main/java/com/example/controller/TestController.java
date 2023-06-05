@@ -17,6 +17,11 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/test")
 public class TestController {
 
+    @RequestMapping("/shiro")
+    public Result shiro() {
+        return Result.success();
+    }
+
     //@Auth(type = Auth.Type.HasRole, hasRole = {"1"})
     @Auth(type = Auth.Type.OnlyRole, onlyRole = "1")
     @RequestMapping("/auth")
