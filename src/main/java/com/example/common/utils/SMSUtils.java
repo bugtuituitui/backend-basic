@@ -16,7 +16,7 @@ public class SMSUtils {
 
     /**
      * 飞鸽 API
-     * https://e.4321.sh/#/dashboard
+     * https://www.4321.sh/devs/dev22.html
      * 速度慢，2-3分钟，可发送文本内容
      */
 //    private static final String API = "https://api.4321.sh/sms/send";
