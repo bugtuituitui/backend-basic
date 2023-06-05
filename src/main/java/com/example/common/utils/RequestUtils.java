@@ -4,8 +4,11 @@ import com.example.common.constant.Header;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * 请求工具类
@@ -68,4 +71,13 @@ public class RequestUtils {
         return ((HttpServletRequest) request).getHeader(Header.TOKEN);
     }
 
+    /**
+     * 请求转发
+     *
+     * @param request
+     * @param path
+     */
+    public static void forward(HttpServletRequest request, HttpServletResponse response, String path) throws ServletException, IOException {
+        request.getRequestDispatcher(path).forward(request, response);
+    }
 }
