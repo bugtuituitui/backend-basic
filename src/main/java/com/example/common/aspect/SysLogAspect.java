@@ -31,7 +31,7 @@ public class SysLogAspect {
 
     // 配置通知
     @Around("pointCut()")
-    Result deal(ProceedingJoinPoint point) throws Throwable {
+    Object deal(ProceedingJoinPoint point) throws Throwable {
 
         String IP = RequestUtils.getIP();
 
@@ -41,6 +41,6 @@ public class SysLogAspect {
 
         log.info("IP: '{}', Method: '{}', UID: '{}'", IP, sysLog.value(), UID);
 
-        return (Result) point.proceed(point.getArgs());
+        return point.proceed(point.getArgs());
     }
 }
