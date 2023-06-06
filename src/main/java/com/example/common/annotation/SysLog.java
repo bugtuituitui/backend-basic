@@ -14,6 +14,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SysLog {
-    // 接口名称
+    /**
+     * 接口名称
+     * @return
+     */
     String value();
 }
