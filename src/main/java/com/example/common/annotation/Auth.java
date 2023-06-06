@@ -15,22 +15,13 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Auth {
 
-    /**
-     * 权限类型
-     * @return
-     */
+    // 权限类型
     Type type();
 
-    /**
-     * 可选角色
-     * @return
-     */
+    // 多选角色
     String[] hasRole() default {};
 
-    /**
-     * 唯一角色
-     * @return
-     */
+    // 唯一角色
     String onlyRole() default "";
 
     enum Type {
