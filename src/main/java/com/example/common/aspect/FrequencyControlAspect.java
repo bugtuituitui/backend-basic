@@ -43,7 +43,7 @@ public class FrequencyControlAspect {
      * @return
      */
     @Around(value = "pointCut()")
-    public Result deal(ProceedingJoinPoint point) throws Throwable {
+    public Object deal(ProceedingJoinPoint point) throws Throwable {
 
         HttpServletRequest request = RequestUtils.getRequest();
 
@@ -66,6 +66,6 @@ public class FrequencyControlAspect {
             redisUtils.set(host, 1, frequencyControl.time());
         }
 
-        return (Result) point.proceed(point.getArgs());
+        return point.proceed(point.getArgs());
     }
 }
