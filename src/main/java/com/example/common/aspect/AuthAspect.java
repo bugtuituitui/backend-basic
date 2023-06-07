@@ -27,7 +27,7 @@ public class AuthAspect {
     }
 
     @Around("pointCut()")
-    public Result deal(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object deal(ProceedingJoinPoint joinPoint) throws Throwable {
 
         Auth auth = AspectUtils.getRealMethod(joinPoint).getAnnotation(Auth.class);
 
@@ -46,6 +46,6 @@ public class AuthAspect {
                 break;
         }
 
-        return (Result) joinPoint.proceed(joinPoint.getArgs());
+        return joinPoint.proceed(joinPoint.getArgs());
     }
 }
