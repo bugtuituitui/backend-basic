@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.common.exception.BusinessException;
 import com.example.common.lang.Result;
 import com.example.common.utils.RedisUtils;
 import com.example.common.utils.RequestUtils;
@@ -72,7 +73,7 @@ public class ApiSignAspect {
      * @param joinPoint
      */
     @Around("logPointCut()")
-    public Result checkSign(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object checkSign(ProceedingJoinPoint joinPoint) throws Throwable {
 
         HttpServletRequest request = RequestUtils.getRequest();
 
@@ -88,12 +89,12 @@ public class ApiSignAspect {
         // 检验请求是否过期
         long now = System.currentTimeMillis();
         if (timestamp + 60 * 1000 < now) {
-            return Result.fail(HTTP_EXPIRATION_MSG);
+            throw new BusinessException(-1, HTTP_EXPIRATION_MSG);
         }
 
         // 检验是否是重发请求
         if (redisUtils.get(apiKey + nonce) != null) {
-            return Result.fail(HTTP_RESEND_MSG);
+            throw new BusinessException(-1, HTTP_RESEND_MSG);
         } else {
             redisUtils.set(apiKey + nonce, 0, 60);
         }
@@ -133,6 +134,7 @@ public class ApiSignAspect {
 
         }
 
+        // 参数为对象
         Set<String> keys = jsonObject.keySet();
         for (String key : keys) {
             map.put(key, jsonObject.getString(key));
@@ -145,13 +147,13 @@ public class ApiSignAspect {
         // 校验sign
         try {
             if (sign == null || !sign.equals(SignatureGenerator.generateSignature(apiKey, apiSecret, params, timestamp, nonce))) {
-                return Result.fail(SIGN_ERROR_MSG);
+                throw new BusinessException(-1, SIGN_ERROR_MSG);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.fail(SIGN_ERROR_MSG);
+            throw new BusinessException(-1, SIGN_ERROR_MSG);
         }
 
-        return (Result) joinPoint.proceed(args);
+        return joinPoint.proceed(args);
     }
 }
