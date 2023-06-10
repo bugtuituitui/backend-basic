@@ -60,7 +60,7 @@ public class ShiroFilter extends BasicHttpAuthenticationFilter {
      */
     @Override
     protected boolean isLoginAttempt(ServletRequest request, ServletResponse response) {
-        return !StringUtils.isNotEmpty(RequestUtils.getToken(request));
+        return StringUtils.isNotEmpty(RequestUtils.getToken(request));
     }
 
     /**
