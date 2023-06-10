@@ -5,6 +5,7 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.common.constant.Header;
 import com.example.common.exception.BusinessException;
 import com.example.common.lang.Result;
 import com.example.common.utils.RedisUtils;
@@ -34,18 +35,6 @@ import java.util.stream.Stream;
 @Aspect
 @Component
 public class ApiSignAspect {
-
-    // api key
-    private static final String API_KEY = "apiKey";
-
-    // api secret
-    private static final String API_SECRET = "apiSecret";
-
-    // 时间戳
-    private static final String TIMESTAMP = "timestamp";
-
-    // 流水号
-    private static final String NONCE = "nonce";
 
     // 签名
     private static final String SIGNATURE = "signature";
@@ -77,14 +66,30 @@ public class ApiSignAspect {
 
         HttpServletRequest request = RequestUtils.getRequest();
 
-        String apiKey = request.getHeader(API_KEY);
-        String apiSecret = request.getHeader(API_SECRET);
-        long timestamp = Long.valueOf(request.getHeader(TIMESTAMP));
-        int nonce = Integer.valueOf(request.getHeader(NONCE));
-        String sign = request.getHeader(SIGNATURE);
+        // 校验请求头
+        String apiKey = request.getHeader(Header.APIKEY);
+        String apiSecret = request.getHeader(Header.APISECRET);
+        String timestampStr = request.getHeader(Header.TIMESTAMP);
+        String nonceStr = request.getHeader(Header.NONCE);
+        String sign = request.getHeader(Header.SIGNATURE);
+
+        List<Object> headerList = new ArrayList<>();
+        headerList.add(apiKey);
+        headerList.add(apiSecret);
+        headerList.add(timestampStr);
+        headerList.add(nonceStr);
+        headerList.add(sign);
+
+        if (headerList.contains(null) || headerList.contains("")) {
+            throw new BusinessException(-1, SIGN_ERROR_MSG);
+        }
+
 
         // TODO 检验key 和 secret
 
+
+        Long timestamp = Long.valueOf(timestampStr);
+        Integer nonce = Integer.valueOf(nonceStr);
 
         // 检验请求是否过期
         long now = System.currentTimeMillis();
