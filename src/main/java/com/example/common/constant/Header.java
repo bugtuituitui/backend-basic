@@ -7,5 +7,31 @@ package com.example.common.constant;
  * @date 2023/6/4 22:48
  */
 public interface Header {
-    public static final String TOKEN = "token";
+
+    String TOKEN = "token";
+
+    /**
+     * api key
+     */
+    String APIKEY = "key";
+
+    /**
+     * api secret
+     */
+    String APISECRET = "secret";
+
+    /**
+     * timestamp
+     */
+    String TIMESTAMP = "timestamp";
+
+    /**
+     * nonce
+     */
+    String NONCE = "nonce";
+
+    /**
+     * signature
+     */
+    String SIGNATURE = "signature";
 }
